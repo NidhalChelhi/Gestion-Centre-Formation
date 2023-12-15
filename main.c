@@ -37,6 +37,7 @@ void main() {
                     goto menu_remplissage;
                 case 2:
                     TABDep = ajoutDepartement(TABDep, n);
+                    n+=1;
                     goto menu_remplissage;
                 case 3:
                     goto menu_principale;
@@ -49,14 +50,16 @@ void main() {
         case 2:
             printf("\n************************************ Affichage ************************************\n");
             for (int i = 0; i < n; i++) {
-                affichageDepartement(TABDep[i]);
+                affichageDepartement(*(TABDep+i));
             }
             goto menu_principale;
         case 3:
-            printf("\nTraitement 1 Not Available Yet\n");
+            printf("\n------------------ AFFICHAGE de la formation la plus chere  ------------------\n");
+            affichagefFormationPlusChere(n,TABDep);
             goto menu_principale;
         case 4:
-            printf("\nTraitement 2 Not Available Yet\n");
+            printf("\n------------------- TRAITEMENT 2: Affichage des bilans des clients -------------------\n");
+            affichageBilansClients(n,TABDep);
             goto menu_principale;
         case 5:
             printf("\nTraitement 3 Not Available Yet\n");
@@ -66,46 +69,6 @@ void main() {
         default:
             printf("\nchoix invalide\n");
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     //    FORMATION *max;
 //    int  indice_client = 0, indice_departement = 0, code;

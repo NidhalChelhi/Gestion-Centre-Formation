@@ -19,7 +19,7 @@ DEPARTEMENT *remplissageDepartement(int n) {
     putchar('\n');
     for (int i = 0; i < n; i++) {
         printf("\n------------------ Saisie de departement num: %d------------------\n", i + 1);
-        TABDep[i] = saisieDepartement(i);
+        *(TABDep+i) = saisieDepartement(i);
     }
     putchar('\n');
     return TABDep;
@@ -36,7 +36,6 @@ DEPARTEMENT *ajoutDepartement(DEPARTEMENT *TABDep, int n) {
     putchar('\n');
     return TABDep2;
 }
-
 DEPARTEMENT saisieDepartement(int k) {
     DEPARTEMENT departement;
     printf("\n donnez code de departement : ");
@@ -52,7 +51,7 @@ DEPARTEMENT saisieDepartement(int k) {
     putchar('\n');
     for (int l = 0; l < departement.nbr_client; l++) //remplissage des clients
     {
-        departement.client[l] = saisieClient(l, departement);
+        *(departement.client+l) = saisieClient(l, departement);
     }
     return departement;
 }
@@ -76,7 +75,7 @@ CLIENT saisieClient(int k, DEPARTEMENT departement) {
     if (!client.formation) exit(-3);
     putchar('\n');
     for (int i = 0; i < client.nbFormations; i++) {
-        client.formation[i] = saisieFormation(i, client, departement);
+        *(client.formation+i) = saisieFormation(i, client, departement);
     }
     return client;
 }
@@ -108,7 +107,7 @@ void affichageDepartement(DEPARTEMENT departement) {
     printf("\nNombre des clients dans le Departement: %d\n", departement.nbr_client);
     for (int i = 0; i < departement.nbr_client; i++) //affichage des clients
     {
-        affichageClient(i, departement.client[i], departement);
+        affichageClient(i, *(departement.client+i), departement);
     }
     putchar('\n');
 }
@@ -122,7 +121,7 @@ void affichageClient(int k, CLIENT client, DEPARTEMENT departement) {
     printf("\nMoyenne du Client: %.2f\n", client.moyenne);
     printf("\nNombre de formations du Client: %d\n", client.nbFormations);
     for (int i = 0; i < client.nbFormations; i++) {
-        affichageFormation(i, client.formation[i], client, departement);
+        affichageFormation(i, *(client.formation+i), client, departement);
     }
     putchar('\n');
 }
@@ -136,4 +135,39 @@ void affichageFormation(int k, FORMATION formation, CLIENT client, DEPARTEMENT d
     printf("\nPrix de Formation: %.3f Dt\n", formation.prix);
     printf("\nNote de Formation: %.3f\n", formation.note);
 }
+void affichagefFormationPlusChere(int n,DEPARTEMENT* departement){
+    FORMATION *max;
+    max = (departement->client )->formation;
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < (departement+i)->nbr_client; j++) {
+            for (int k = 0; k < ((departement+i)->client + j)->nbFormations; k++) {
+                if (max->prix < (((departement+i)->client + j)->formation + k)->prix) {
+                    max = (((departement+i)->client + j)->formation + k);
+                }
+            }
+        }
+    }
+    printf("\n la formation la plus chere avec le code = %d \n" " nom : %s\n" "prix = %.3f DTN", max->codeFormation, max->nom,max->prix);
+}
 
+void affichageBilansClients(int n,DEPARTEMENT *departement){
+    float prix_totale = 0;
+    for (int i = 0; i < n; i++) {
+        printf("\n -----voici les bilants des client de departement %d-----\n", i + 1);
+        for (int j = 0; j < (departement+i)->nbr_client; j++) {
+            printf("\n------bilan de client %d------\n", j + 1);
+            printf("\n le code de client %d est egale a %d \n", j + 1, ((departement+i)->client + j)->codeClient);
+            printf("\n le nom de client %d c'est %s \n", j + 1, ((departement+i)->client + j)->nom);
+            printf("\n  l'age de client %d : %d \n", j + 1, ((departement+i)->client + j)->age);
+            printf("\n  la moyenne de client %d est egale a %.3f \n", j + 1, ((departement+i)->client + j)->moyenne);
+            printf("\n  le nombre de formation de client %d est egale a %d \n", j + 1,
+                   ((departement+i)->client + j)->nbFormations);
+            for (int k = 0; k < ((departement+i)->client + j)->nbFormations; k++) {
+                prix_totale += (((departement+i)->client + j)->formation + k)->prix;
+            }
+            printf("\n le cout totale de ses formation est egale a : %.3f dt", prix_totale);
+            prix_totale = 0;
+            putchar('\n');
+        }
+    }
+}

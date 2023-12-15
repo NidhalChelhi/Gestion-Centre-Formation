@@ -43,8 +43,8 @@ void affichageDepartement(DEPARTEMENT departement);
 void affichageClient(int k, CLIENT client, DEPARTEMENT departement);
 
 void affichageFormation(int k, FORMATION formation, CLIENT client, DEPARTEMENT departement);
-
-
+void affichagefFormationPlusChere(int n,DEPARTEMENT* departement);
+void affichageBilansClients(int n,DEPARTEMENT *departement);
 
 DEPARTEMENT *ajoutDepartement(DEPARTEMENT *TABDep, int n);
 
